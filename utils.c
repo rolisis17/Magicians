@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:03:14 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/19 15:11:35 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:58:27 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,30 @@ int	ft_atoi(const char *nptr)
 		f++;
 	}
 	return (res * sign);
+}
+
+int	check_args(char **av)
+{
+	int	f;
+
+	f = 0;
+	while (av[++f])
+	{
+		if (check_nbrs(av[f]) == -1)
+			return (0);
+	}
+	return (1);
+}
+
+int	check_nbrs(char *av)
+{
+	int	f;
+
+	f = -1;
+	while (av[++f])
+	{
+		if (!(av[f] >= 48 && av[f] <= 57))
+			return (-1);
+	}
+	return (ft_atoi(av));
 }
