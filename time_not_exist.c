@@ -6,13 +6,13 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:28:56 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/22 18:25:41 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:34:44 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "magician.h"
 
-void	timer_check(int time)
+int	time_keep(int time)
 {
 	struct timeval start;
 	struct timeval end;
@@ -20,21 +20,20 @@ void	timer_check(int time)
     gettimeofday(&start, NULL);
 	while (1)
 	{
+		usleep(15);
     	gettimeofday(&end, NULL);
-		if ((end.tv_sec - start.tv_sec == time) && \
-		(end.tv_usec - start.tv_usec == time))
-			break ;
+		if ((end.tv_sec - start.tv_sec) * 1000 \
+		+ (end.tv_usec - start.tv_usec) / 1000 >= time)
+			return (1);
 	}
-	return ;
+	return (0);
 }
 
-int	time_keep(struct timeval start)
+int	time_checker(struct timeval start)
 {
 	struct timeval			end;
 
     gettimeofday(&end, NULL);
-	// printf("%ld\n", ((end.tv_sec - start.tv_sec) * 1000) /
-	// + ((end.tv_usec - start.tv_usec) / 1000));
-	return((end.tv_sec - start.tv_sec) * 1000) /
-	+ ((end.tv_usec - start.tv_usec) / 1000);
+	return((end.tv_sec - start.tv_sec) * 1000 \
+	+ (end.tv_usec - start.tv_usec) / 1000);
 }

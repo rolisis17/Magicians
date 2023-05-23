@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:58:36 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/22 18:25:10 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:59:29 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,76 @@ void	*existence(void *magic)
 	t_magician *magician;
 
 	magician = ((t_magician *)magic);
-	if(check_alive(magician) == 1)
-	mutex_print(magician, "ALIVE PORRA!");
+	while (check_alive(magician))
+	{
+		if (magician->id % 2 != 1)
+			usleep(1);
+		if (magic_eat(magician))
+			break ;
+		if (magic_sleep(magician))
+			break ;
+		if (magic_studying(magician))
+			break ;
+		// if (!check_alive(magician))
+			// break ;
+		usleep(10);
+	}
+	// mutex_print(magician, "IS DEAD!");
 	return (NULL);
 }
 
-void	magic_eat(t_magician *magicians)
+
+
+int	magic_eat(t_magician *magicians)
 {
-	pthread_mutex_lock(&magicians->sorceryx);
-	if (magicians->sorcery != -1 && magicians->sorcery > 0)
-		magicians->sorcery--;
-	mutex_print(magicians, "IS SORCERYING!!!!!");
-	pthread_mutex_unlock(&magicians->sorceryx);
-	
+	if (magicians->sorcery != -1)
+	{
+		if (!check_sorceryx(magicians))
+			return (1);
+	}
+	if (check_alive(magicians))
+	{
+		grab_books(magicians);
+		gettimeofday(&magicians->life_spell_delay, NULL);
+		mutex_print(magicians, "IS SORCERYING!!!!!");
+		time_keep(magicians->cat->exist->time_to_spell);
+		pthread_mutex_unlock(&magicians->book_of_spells);
+		pthread_mutex_unlock(&magicians->next->book_of_spells);
+	}
+	return (0);
 }
+
+int	check_sorceryx(t_magician *magic)
+{
+	pthread_mutex_lock(&magic->sorceryx);
+	if (magic->sorcery != -1 && magic->sorcery > 0)
+		magic->sorcery--;
+	pthread_mutex_unlock(&magic->sorceryx);
+	return (magic->sorcery);
+}
+
+int	grab_books(t_magician *magic)
+{
+	if (magic->id % 2 != 0)
+	{
+		pthread_mutex_lock(&magic->book_of_spells);
+		pthread_mutex_lock(&magic->next->book_of_spells);
+	}
+	else
+	{
+		pthread_mutex_lock(&magic->next->book_of_spells);
+		pthread_mutex_lock(&magic->book_of_spells);
+	}
+	return (1);
+}
+
+// int	let_books(t_magician *magic)
+// {
+// 	pthread_mutex_lock(&magic->book_of_spells);
+// 	magic->right_hand = 0;
+// 	pthread_mutex_lock(&magic->next->book_of_spells);
+// 	magic->left_hand = 0;
+// }
 
 void	set_dead(t_magician *magic)
 {
@@ -50,24 +106,34 @@ int	check_alive(t_magician *magic)
 	return (alive);
 }
 
-void	magic_sleep(t_magician *magicians)
+int	magic_sleep(t_magician *magicians)
 {
-	mutex_print(magicians, "FUCKING SLEEPING BITCH!\n");
+	if(mutex_print(magicians, "SLEEPING!") == 1)
+		return (1);
+	else
+		time_keep(magicians->cat->exist->time_to_sleep);
+	return (0);
 }
 
-void	magic_studying(t_magician *magicians)
+int	magic_studying(t_magician *magicians)
 {
-	mutex_print(magicians, "FUCKING STUDYING BITCH!\n");
+	return (mutex_print(magicians, "STUDYING!"));
 }
 
-void	mutex_print(t_magician *magic , char *text)
+int	mutex_print(t_magician *magic , char *text)
 {
+	int	dead;
+	
 	pthread_mutex_lock(&magic->cat->dead);
-	if (magic->cat->alive == 1)
+	dead = magic->cat->alive;
+	pthread_mutex_unlock(&magic->cat->dead);
+	if (dead == 1)
 	{
 		pthread_mutex_lock(&magic->cat->print);
-		printf("%d %d %s\n", time_keep(magic->cat->start), magic->id, text);
+		printf("\033[0;31m%d\033[0m \033[0;93m%d\033[0m \033[0;95m%s\033[0m\n", time_checker(magic->start), magic->id, text);
 		pthread_mutex_unlock(&magic->cat->print);
+		return (0);
 	}
-	pthread_mutex_unlock(&magic->cat->dead);
+	else
+		return (1);
 }

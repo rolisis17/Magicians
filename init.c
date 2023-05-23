@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:56:20 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/22 18:32:17 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:53:55 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ t_talkingcat	*magic_cat_init(t_talkingcat *cat, char **av)
 	cat->alive = 1;
 	pthread_mutex_init(&cat->dead, NULL);
 	pthread_mutex_init(&cat->print, NULL);
-	cat->exist = parse_entry(av);
+	cat->exist = parse_entry(av); 
 	if (cat->exist->magician_nbr > 0)
 	{
 		cat->magicians = prepare_table(cat->exist->magician_nbr);
-		print_lst(cat->magicians);
+		// print_lst(cat->magicians);
 	}
 	make_it_talk(cat);
 	create_threads(cat->magicians);
-	
 	return (cat);
 }
 
@@ -38,12 +37,13 @@ void	make_it_talk(t_talkingcat *cat)
 
 	f = -1;
 	magic = cat->magicians;
-	printf("cat:%d\n", cat->exist->sorcery_times);
+	// printf("cat:%ld\n", cat->exist->time_to_sleep);
 	while (magic->id > ++f)
 	{
-		printf("magic_id:%d\n", magic->id);
+		// printf("magic_id:%d\n", magic->id);
 		magic->cat = cat;
-		printf("magic:%d\n", magic->cat->exist->sorcery_times);
+		magic->sorcery = magic->cat->exist->sorcery_times;
+		// printf("magic:%ld\n", magic->cat->exist->time_to_sleep);
 		magic = magic->next;
 	}
 }
@@ -97,15 +97,23 @@ t_magician	*new_magician(int id)
 	return (magicians);
 }
 
-void	*checking_loop(void *cat)
+void	*checking_loop(void *kat)
 {
-	t_talkingcat *kat;
+	t_talkingcat *cat;
 
-	kat = (t_talkingcat *)cat;
-	while (1)
+	cat = (t_talkingcat *)kat;
+	// printf("cat!\n");
+	usleep(700);
+	while (cat->alive)
 	{
-		if (!kat->alive)
-			break ;
+		if (time_checker(cat->magicians->life_spell_delay) > cat->exist->time_to_die)
+		{
+			mutex_print(cat->magicians, "IS DEAD!");
+			set_dead(cat->magicians);
+		}
+		cat->magicians = cat->magicians->next;
 	}
+	// printf("LFD:%d %d\n",cat->magicians->id, time_checker(cat->magicians->prev->life_spell_delay));
+	printf("ALIVE?	%d\n", cat->alive);
 	return (NULL);
 }

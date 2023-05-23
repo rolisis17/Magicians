@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:59:09 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/22 14:09:07 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:40:27 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_existence	*parse_entry(char **av)
 		exist->all_good = 1;
 		exist->magician_nbr = ft_atoi(av[1]);
 		exist->time_to_die = ft_atoi(av[2]);
-		exist->time_to_study = ft_atoi(av[3]);
+		exist->time_to_spell = ft_atoi(av[3]);
 		exist->time_to_sleep = ft_atoi(av[4]);
 		if (av[5])
 			exist->sorcery_times = ft_atoi(av[5]);

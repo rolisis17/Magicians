@@ -19,8 +19,8 @@ int	main(int ac, char **av)
 	cat = NULL;
 	if (ac ==5 || ac == 6)
 		cat = magic_cat_init(cat, av);
-	if (cat->exist == NULL)
-		return (1);
+	// if (cat->exist->all_good == 0)
+	// 	return (1);
 	return (0);
 }
 
