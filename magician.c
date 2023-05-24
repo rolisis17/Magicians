@@ -14,13 +14,14 @@
 
 int	main(int ac, char **av)
 {
-	t_talkingcat	*cat;
+	t_talkingcat	cat;
 
-	cat = NULL;
+	// cat = NULL;
 	if (ac ==5 || ac == 6)
-		cat = magic_cat_init(cat, av);
+		magic_cat_init(&cat, av);
 	// if (cat->exist->all_good == 0)
 	// 	return (1);
+	// freelist(&cat);
 	return (0);
 }
 

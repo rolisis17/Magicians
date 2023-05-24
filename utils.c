@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:03:14 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/22 13:58:27 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:59:19 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,44 @@ int	check_nbrs(char *av)
 	f = -1;
 	while (av[++f])
 	{
-		if (!(av[f] >= 48 && av[f] <= 57))
+		if (!(av[f] >= 48 && av[f] <= 57) || ft_atoi(av) < 0)
 			return (-1);
 	}
 	return (ft_atoi(av));
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*nmembp;
+	size_t	f;
+
+	f = 0;
+	nmembp = (void *) malloc(nmemb * size);
+	if (!nmembp)
+		return (NULL);
+	while (f < nmemb * size)
+	{
+		((unsigned char *)nmembp)[f] = '\0';
+		f++;
+	}
+	return (nmembp);
+}
+
+void	freelist(t_talkingcat *cat)
+{
+	t_magician	*temp;
+	
+	while(cat->magicians)
+	{
+		temp = cat->magicians;
+		cat->magicians = cat->magicians->next;
+		pthread_mutex_destroy(&temp->book_of_spells);
+		pthread_mutex_destroy(&temp->sorceryx);
+		free(temp);
+	}
+	pthread_mutex_destroy(&cat->print);
+	pthread_mutex_destroy(&cat->dead);
+	free(cat->exist);
+	free(cat);
+	cat = NULL;
 }

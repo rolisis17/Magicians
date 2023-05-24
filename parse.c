@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:59:09 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/23 20:40:27 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:08:25 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_existence	*parse_entry(char **av)
 	t_existence	*exist;
 
 	exist = (t_existence *)malloc(sizeof(t_existence));
-	if (!check_args(av) || ft_atoi(av[1]) == 0)
+	if (!check_args(av) || ft_atoi(av[1]) <= 0)
 		return (NULL);
 	if (av[4])
 	{

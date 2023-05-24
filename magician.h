@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 13:17:28 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/23 20:46:28 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/24 21:16:30 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@
 
 typedef struct			s_magician
 {
-	int					left_hand;
-	int					right_hand;
 	int					id;
 	pthread_t			p_id;
-	int					sorcery;
-	struct timeval		start;
 	struct timeval		life_spell_delay;
 	pthread_mutex_t		book_of_spells;
+	int					sorcery;
 	pthread_mutex_t		sorceryx;
-	struct s_talkingcat	*cat;
+	// struct s_talkingcat	*cat;
 	struct s_magician	*next;
 	struct s_magician	*prev;
 }						t_magician;
@@ -47,6 +44,7 @@ typedef struct	s_existence
 
 typedef struct	s_talkingcat
 {
+	struct timeval		start;
 	pthread_mutex_t		print;
 	int					alive;
 	pthread_mutex_t		dead;
@@ -62,21 +60,23 @@ t_magician		*prepare_table(int magician_nbr);
 t_existence		*parse_entry(char **av);
 t_talkingcat	*magic_cat_init(t_talkingcat *cat, char **av);
 void			*existence(void *magic);
-void			create_threads(t_magician *magicians);
+void			create_threads(t_talkingcat *cat);
 void			create_cat_thread(t_talkingcat *cat);
-int				mutex_print(t_magician *magic , char *text);
-int				magic_eat(t_magician *magicians);
-int				magic_sleep(t_magician *magicians);
-int				magic_studying(t_magician *magicians);
-int				check_sorceryx(t_magician *magic);
-int				grab_books(t_magician *magic);
-// int				let_books(t_magician *magic);
+int				mutex_print(t_talkingcat *cat, char *text, int arg);
+int				print_eat(t_talkingcat *cat);
+int				magic_eat(t_talkingcat *cat);
+int				magic_sleep(t_talkingcat *cat);
+int				magic_studying(t_talkingcat *cat);
+int				check_sorceryx(t_talkingcat *cat);
+int				grab_books(t_talkingcat *cat);
+int				die_alone(t_talkingcat *cat);
 void			make_it_talk(t_talkingcat *kat);
 void			*checking_loop(void *cat);
-void			set_dead(t_magician *magic);
-int				check_alive(t_magician *magic);
-int				time_keep(int time);
+int				set_dead(t_talkingcat *cat);
+int				check_alive(t_talkingcat *cat);
+int				time_keep(t_magician *magic, int time);
 int				time_checker(struct timeval start);
+int				check_sorcery_times(t_talkingcat *cat);
 
 //		UTILS
 
@@ -84,5 +84,7 @@ void			print_lst(t_magician *magicians);
 int				ft_atoi(const char *nptr);
 int				check_args(char **av);
 int				check_nbrs(char *av);
+void			*ft_calloc(size_t nmemb, size_t size);
+void			freelist(t_talkingcat *cat);
 
 #endif

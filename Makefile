@@ -1,4 +1,4 @@
-SRCS = magician.c utils.c parse.c threads.c init.c existence.c time_not_exist.c
+SRCS = magician.c utils.c parse.c threads.c init.c existence.c time_not_exist.c cat.c
 NAME = philo
 CC = cc -Wall -Wextra -Werror -g -fsanitize=thread
 RM = rm -rf
