@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:56:20 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/24 21:18:56 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:08:42 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,49 @@
 t_talkingcat	*magic_cat_init(t_talkingcat *cat, char **av)
 {
 	if (!cat)
-		cat = ft_calloc(sizeof(t_talkingcat), 1);
+		cat = (t_talkingcat *)malloc(sizeof(t_talkingcat));
 	cat->alive = 1;
 	pthread_mutex_init(&cat->dead, NULL);
 	pthread_mutex_init(&cat->print, NULL);
-	cat->exist = parse_entry(av); 
+	cat->exist = parse_entry(av);
 	if (!cat->exist)
 		return (NULL);
 	if (cat->exist->magician_nbr > 0)
-		cat->magicians = prepare_table(cat->exist->magician_nbr);
-	// make_it_talk(cat);
-	create_threads(cat);
+		cat->magicians = make_magic(cat->exist->magician_nbr);
+	make_it_talk(cat);
+	create_threads(cat->magicians);
 	return (cat);
 }
 
-// void	make_it_talk(t_talkingcat *cat)
-// {
-// 	int	f;
-// 	t_magician	*magic;
-
-// 	f = -1;
-// 	magic = cat->magicians;
-// 	while (magic->id > ++f)
-// 	{
-// 		magic->cat = cat;
-// 		magic = magic->next;
-// 	}
-// }
-
-t_magician	*prepare_table(int magician_nbr)
+void	make_it_talk(t_talkingcat *cat)
 {
-	int	f;
+	int			f;
+	t_magician	*magic;
+
+	f = -1;
+	magic = cat->magicians;
+	while (magic->id > ++f)
+	{
+		magic->cat = cat;
+		magic = magic->next;
+	}
+}
+
+t_magician	*make_magic(int magician_nbr)
+{
+	int			f;
 	t_magician	*head;
 	t_magician	*magicians;
-	t_magician *new;
+	t_magician	*new;
 
 	f = 0;
-	head = NULL;
+	head = new_magician(++f);
+	magicians = head;
 	while (++f <= magician_nbr)
 	{
 		new = new_magician(f);
-		if (!head)
-			head = new;
-		else
-		{
-			if (!magicians)
-				magicians = new;
-			else
-			{
-				magicians->next = new;
-				new->prev = magicians;
-			}
-		}
+		magicians->next = new;
+		new->prev = magicians;
 		magicians = new;
 		new = NULL;
 	}
@@ -78,7 +69,7 @@ t_magician	*prepare_table(int magician_nbr)
 t_magician	*new_magician(int id)
 {
 	t_magician	*magicians;
-	
+
 	magicians = ft_calloc(sizeof(t_magician), 1);
 	if (!magicians)
 		return (NULL);

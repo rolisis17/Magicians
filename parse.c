@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:59:09 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/24 18:08:25 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:09:48 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ t_existence	*parse_entry(char **av)
 
 	exist = (t_existence *)malloc(sizeof(t_existence));
 	if (!check_args(av) || ft_atoi(av[1]) <= 0)
+	{
+		free (exist);
 		return (NULL);
+	}
 	if (av[4])
 	{
-		exist->all_good = 1;
 		exist->magician_nbr = ft_atoi(av[1]);
 		exist->time_to_die = ft_atoi(av[2]);
 		exist->time_to_spell = ft_atoi(av[3]);
@@ -36,7 +38,7 @@ t_existence	*parse_entry(char **av)
 
 void	print_lst(t_magician *magicians)
 {
-	while  (magicians->id < magicians->next->id)
+	while (magicians->id < magicians->next->id)
 	{
 		printf("%d\n", magicians->id);
 		magicians = magicians->next;

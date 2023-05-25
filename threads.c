@@ -6,36 +6,31 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:55:50 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/24 21:17:49 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:44:51 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "magician.h"
 
-void	create_threads(t_talkingcat *cat)
+void	create_threads(t_magician *magicians)
 {
 	int	counter;
 
-	counter = cat->magicians->prev->id;
-	// printf("%ld\n", magicians->cat->start.tv_sec);
-	// printf("%ld\n", magicians->next->cat->start.tv_sec);
-	
-	// time_keep(magicians->cat->start);
-	gettimeofday(&cat->start, NULL);
+	counter = magicians->cat->exist->magician_nbr;
+	gettimeofday(&magicians->cat->start, NULL);
 	while (counter--)
 	{
-		pthread_create(&cat->magicians->p_id, NULL, existence, cat->magicians);
-		cat->magicians = cat->magicians->next;
-		usleep(1);
+		pthread_create(&magicians->p_id, NULL, existence, magicians);
+		magicians = magicians->next;
+		usleep(5);
 	}
-	create_cat_thread(cat);
-	counter = cat->magicians->prev->id;
+	create_cat_thread(magicians->cat);
+	counter = magicians->cat->exist->magician_nbr;
 	while (counter--)
 	{
-		pthread_join(cat->magicians->p_id, NULL);
-		cat->magicians = cat->magicians->next;
+		pthread_join(magicians->p_id, NULL);
+		magicians = magicians->next;
 	}
-	// printf("%d\n", counter);
 }
 
 void	create_cat_thread(t_talkingcat *cat)

@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:03:14 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/24 19:59:19 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:33:07 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,4 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		f++;
 	}
 	return (nmembp);
-}
-
-void	freelist(t_talkingcat *cat)
-{
-	t_magician	*temp;
-	
-	while(cat->magicians)
-	{
-		temp = cat->magicians;
-		cat->magicians = cat->magicians->next;
-		pthread_mutex_destroy(&temp->book_of_spells);
-		pthread_mutex_destroy(&temp->sorceryx);
-		free(temp);
-	}
-	pthread_mutex_destroy(&cat->print);
-	pthread_mutex_destroy(&cat->dead);
-	free(cat->exist);
-	free(cat);
-	cat = NULL;
 }
