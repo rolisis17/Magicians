@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:56:20 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/25 19:08:42 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:29:13 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_talkingcat	*magic_cat_init(t_talkingcat *cat, char **av)
 	if (cat->exist->magician_nbr > 0)
 		cat->magicians = make_magic(cat->exist->magician_nbr);
 	make_it_talk(cat);
-	create_threads(cat->magicians);
 	return (cat);
 }
 

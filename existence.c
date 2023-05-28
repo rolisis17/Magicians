@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:58:36 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/25 19:41:45 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:57:05 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,18 @@ int	die_alone(t_magician *magicians)
 {
 	pthread_mutex_lock(&magicians->cat->print);
 	printf("%d %d %s\n", \
-	time_checker(magicians->cat->start), magicians->id, "has taken a fork!");
+	time_checker(magicians->cat->start), magicians->id, "HAS TAKEN THE BOOK!");
 	pthread_mutex_unlock(&magicians->cat->print);
 	return (1);
 }
 
 int	magic_sleep(t_magician *magicians)
 {
-	if (mutex_print(magicians, "is sleeping!", 0) == 1)
+	if (mutex_print(magicians, "IS RESTING!", 0) == 1)
 		return (1);
 	else
-		time_keep(magicians, magicians->cat->exist->time_to_sleep);
-	if (mutex_print(magicians, "is thinking!", 0))
+		time_keep(magicians, magicians->cat->exist->time_to_study);
+	if (mutex_print(magicians, "IS STUDYING!", 0))
 		return (1);
 	return (0);
 }

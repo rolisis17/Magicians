@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 13:17:28 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/25 19:36:03 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:41:29 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_magician
 typedef struct s_existence
 {
 	int		time_to_die;
-	int		time_to_sleep;
+	int		time_to_study;
 	int		time_to_spell;
 	int		sorcery_times;
 	int		magician_nbr;
@@ -76,6 +76,7 @@ int				check_alive(t_magician *magicians);
 int				time_keep(t_magician *magic, int time);
 int				time_checker(struct timeval start);
 int				check_sorcery_times(t_talkingcat *cat);
+void			magic_free(t_talkingcat *cat);
 
 //		UTILS
 

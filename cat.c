@@ -6,7 +6,7 @@
 /*   By: dcella-d <dcella-d@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:46:00 by dcella-d          #+#    #+#             */
-/*   Updated: 2023/05/25 19:32:06 by dcella-d         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:58:32 by dcella-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	*checking_loop(void *kat)
 		if (check_life_spell(cat))
 		{
 			set_dead(cat->magicians);
-			printf("%d %d %s\n", \
-			time_checker(cat->start), cat->magicians->id, "IS DEAD!");
+			printf("\033[0;31m%d\033[0m \033[0;93m%d\033[0m \033[0;95m%s\033[0m\n", \
+			time_checker(cat->start), cat->magicians->id, "IS HERE NO MORE!");
 			if (cat->magicians->id == cat->magicians->next->id)
 				break ;
 		}
